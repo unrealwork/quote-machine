@@ -1,8 +1,5 @@
 {
-  "name": "webpack-es6-boilerplate",
-  "version": "1.0.1",
-  "author": "Joseph Luccisano <joseph.luccisano@gmail.com> (https://jluccisano.github.io)",
-  "description": "A delightfully Webpack ES6 Boilerplate",
+  "private": true,
   "license": "MIT",
   "keywords": [
     "webpack",
