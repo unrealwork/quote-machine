@@ -1,9 +1,22 @@
-import './index.css';
-import registerServiceWorker from './registerServiceWorker';
-import App from './App'
+import './index.scss';
+import {$on} from './helpers/DOMHelper';
+import QuoteComponent from './components/QuoteComponent';
+import QuotesAPI from './API';
 
-document.addEventListener("DOMContentLoaded", function () {
-    App.main()
+
+let handler = (component) => {
+    return () => {
+        QuotesAPI.random().then(quote => {
+            component.setQuoteValue(quote);
+        });
+    };
+};
+
+const start = QuotesAPI.random().then(quote => {
+    let quoteComponent = new QuoteComponent();
+    quoteComponent.setQuoteValue(quote);
+    quoteComponent.bindNewQuote(handler(quoteComponent));
 });
 
-registerServiceWorker();
+$on(window, 'load', start);
+

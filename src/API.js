@@ -1,19 +1,35 @@
-import HttpClient from './http/HttpClient'
+import axios from 'axios';
 
+/**
+ * Default API for Quote service.
+ */
 class API {
-    static client = HttpClient
-        .builder("http://quotes.rest")
-        .build();
+    /**
+     * Retrieve {AxiosInstance} http client.
+     * @returns {AxiosInstance}
+     */
+    static get client() {
+        return axios.create({
+            baseURL: 'https://andruxnet-random-famous-quotes.p.mashape.com',
+            timeout: 1000,
+            headers: {
+                'X-Mashape-Key': 'OivH71yd3tmshl9YKzFH7BTzBVRQp1RaKLajsnafgL2aPsfP9V'
+            }
+        });
+    }
 
-    static newQuote() {
-        return this.client.get("/qod.json")
+    /**
+     * Retrive random quote.
+     * @returns {Promise.<Quote>}
+     */
+    static random() {
+        return this.client.get('cat=')
             .then(resp => {
-                return resp.json()
-            })
-            .catch(() => {
-                throw new Error('Failed to get a quote')
+                return resp.data;
+            }).catch(() => {
+                throw new Error('Failed to get a quote');
             });
-    };
+    }
 }
 
 export default API;

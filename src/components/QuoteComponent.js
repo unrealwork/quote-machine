@@ -1,12 +1,32 @@
-export default class QuoteComponent {
+import {$on, qs} from './../helpers/DOMHelper';
 
-    constructor(quote) {
-        this._quote = quote;
+/**
+ * View for Quote quote instance.
+ */
+export default class QuoteComponent {
+    /**
+     * Default constructor.
+     */
+    constructor() {
+        this.$quote = qs('#quote');
+        this.$newQuoteButton = qs('button#new-quote');
+        this.$authorText = qs('#quote-author');
     }
 
-    render() {
-        var quoteBox = document.createElement('pre');
-        quoteBox.appendChild(document.createTextNode(this._quote))
-        document.body.appendChild(quoteBox);
+    /**
+     * Set value to quote component.
+     * @param {Quote} quote
+     */
+    setQuoteValue(quote) {
+        this.$quote.innerText = quote.quote;
+        this.$authorText.innerText = `-  ${quote.author}`;
+    }
+
+    /**
+     * Bind action to newQuote Button.
+     * @param handler
+     */
+    bindNewQuote(handler) {
+        $on(this.$newQuoteButton, 'click', handler);
     }
 }
