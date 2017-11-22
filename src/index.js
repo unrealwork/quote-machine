@@ -1,10 +1,10 @@
 import './index.scss';
 import {$on} from './helpers/DOMHelper';
 import QuoteComponent from './components/QuoteComponent';
-import QuotesAPI from './API';
+import {QuotesAPI, TweeterAPI} from './API';
 
 
-let handler = (component) => {
+const newQuoteAction = (component) => {
     return () => {
         QuotesAPI.random().then(quote => {
             component.setQuoteValue(quote);
@@ -12,11 +12,19 @@ let handler = (component) => {
     };
 };
 
+const tweetQuoteAction = (quote) => {
+    return () => {
+        TweeterAPI.tweet(quote);
+    };
+};
+
 const start = QuotesAPI.random().then(quote => {
     let quoteComponent = new QuoteComponent();
     quoteComponent.setQuoteValue(quote);
-    quoteComponent.bindNewQuote(handler(quoteComponent));
+    quoteComponent.bindNewQuote(newQuoteAction(quoteComponent));
+    quoteComponent.bindTweetButton(tweetQuoteAction(quoteComponent.getQuote()));
 });
+
 
 $on(window, 'load', start);
 

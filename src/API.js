@@ -1,9 +1,10 @@
 import axios from 'axios';
 
+
 /**
- * Default API for Quote service.
+ * Default QuotesAPI for Quote service.
  */
-class API {
+export class QuotesAPI {
     /**
      * Retrieve {AxiosInstance} http client.
      * @returns {AxiosInstance}
@@ -32,4 +33,33 @@ class API {
     }
 }
 
-export default API;
+/**
+ * API for tweeter.
+ */
+export class TweeterAPI {
+    /**
+     * Retrieve {AxiosInstance} http client.
+     * @returns {AxiosInstance}
+     */
+    static get client() {
+        return axios.create({
+            baseURL: 'https://twitter.com',
+            timeout: 1000,
+            headers: {}
+        });
+    }
+
+
+    /**
+     * Tweet a quote
+     * @param quote
+     */
+    static tweet(quote) {
+        return this.client.get('intent/tweet', {
+            params: {
+                hashtags: 'quote',
+                text: `"${quote.quote}" ${quote.author}`
+            }
+        });
+    }
+}
